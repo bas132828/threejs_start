@@ -6,7 +6,7 @@ import * as dat from "dat.gui";
 const textureLoader = new THREE.TextureLoader();
 const normalTexture = textureLoader.load("/textures/golf_texture.png");
 // Debug
-// const gui = new dat.GUI();
+const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -20,7 +20,7 @@ const geometry = new THREE.SphereBufferGeometry(0.5, 64, 64);
 // Materials
 
 const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.7;
+material.metalness = 0.9;
 material.roughness = 0.2;
 material.color = new THREE.Color(0x292929);
 material.normalMap = normalTexture;
@@ -30,29 +30,34 @@ const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
 // Lights
+const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.add( light );
+
 
 const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
+pointLight.position.x = 1.27;
+pointLight.position.y = 1.76;
+pointLight.position.z = -.6;
+pointLight.intensity = 2;
+
 scene.add(pointLight);
 
 const pointLight2 = new THREE.PointLight(0xff5223, 2);
-// pointLight2.position.x = 2;
-// pointLight2.position.y = 3;
-// pointLight2.position.z = 4;
+pointLight2.position.x = -2;
+pointLight2.position.y = -2.8;
+pointLight2.position.z = 1.1;
 pointLight2.position.set(1.76, 3, -2);
-pointLight2.intensity = 3;
+pointLight2.intensity = 5;
 
 scene.add(pointLight2);
 
-// const lightHelper = new THREE.PointLightHelper(pointLight2, 1);
-// scene.add(lightHelper);
+const lightHelper = new THREE.PointLightHelper(pointLight2, 1);
+scene.add(lightHelper);
 
-// gui.add(pointLight2.position, "y").min(-3).max(6).step(0.01);
-// gui.add(pointLight2.position, "x").min(-3).max(6).step(0.01);
-// gui.add(pointLight2.position, "z").min(-3).max(6).step(0.01);
-// gui.add(pointLight2, "intensity").min(0).max(6).step(0.01);
+gui.add(pointLight2.position, "y").min(-3).max(6).step(0.01);
+gui.add(pointLight2.position, "x").min(-3).max(6).step(0.01);
+gui.add(pointLight2.position, "z").min(-3).max(6).step(0.01);
+gui.add(pointLight2, "intensity").min(0).max(6).step(0.01);
 
 ///
 
@@ -63,23 +68,23 @@ pointLight3.intensity = 3;
 
 scene.add(pointLight3);
 
-// const lightHelper2 = new THREE.PointLightHelper(pointLight3, 1);
-// scene.add(lightHelper2);
+const lightHelper2 = new THREE.PointLightHelper(pointLight3, 1);
+scene.add(lightHelper2);
 
-// gui.add(pointLight3.position, "y").min(-3).max(6).step(0.01);
-// gui.add(pointLight3.position, "x").min(-3).max(6).step(0.01);
-// gui.add(pointLight3.position, "z").min(-3).max(6).step(0.01);
-// gui.add(pointLight3, "intensity").min(0).max(6).step(0.01);
+gui.add(pointLight3.position, "y").min(-3).max(6).step(0.01);
+gui.add(pointLight3.position, "x").min(-3).max(6).step(0.01);
+gui.add(pointLight3.position, "z").min(-3).max(6).step(0.01);
+gui.add(pointLight3, "intensity").min(0).max(25).step(0.01);
 
-// ///
-// const light2 = gui.addFolder("light 2");
-// const light2Colors = {
-//   color: 0xf023,
-// };
+///
+const light2 = gui.addFolder("light 2");
+const light2Colors = {
+  color: 0xf023,
+};
 
-// light2.addColor(light2Colors, "color").onChange(() => {
-//   pointLight3.color.set(light2Colors.color);
-// });
+light2.addColor(light2Colors, "color").onChange(() => {
+  pointLight3.color.set(light2Colors.color);
+});
 /**
  * Sizes
  */
