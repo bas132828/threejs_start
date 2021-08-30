@@ -104,6 +104,20 @@ window.addEventListener("resize", () => {
   23;
 });
 
+let mouseX = 0;
+let mouseY = 0;
+
+let targetX = 0;
+let targetY = 0;
+
+const windowHalfX = window.innerWidth / 2;
+const windowHalfY = window.innerHeight / 2;
+
+const onDocumentMouseMove = (event) => {
+  mouseX = event.clientX - windowHalfX;
+  mouseY = event.clientY - windowHalfY;
+};
+document.addEventListener("mousemove", onDocumentMouseMove);
 /**
  * Camera
  */
@@ -140,17 +154,22 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const clock = new THREE.Clock();
 
 const tick = () => {
+  targetX = mouseX * 0.001;
+  targetY = mouseY * 0.001;
   const elapsedTime = clock.getElapsedTime();
 
   // Update objects
   sphere.rotation.y = 0.5 * elapsedTime;
+  sphere.rotation.y += 0.5 * (targetX - sphere.rotation.y);
+  sphere.rotation.x += 0.5 * (targetX - sphere.rotation.x);
+  sphere.rotation.z += 0.5 * (targetX - sphere.rotation.z);
 
   // Update Orbital Controls
   // controls.update()
 
   // Render
   renderer.render(scene, camera);
-  renderer.setClearColor(0xaeb1a9, 0.4);
+  renderer.setClearColor(0x525252, 1);
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
